@@ -53,8 +53,7 @@ class LoadingHelp {
 
   static Widget get loadingView => _loadingView;
 
-  LoadingHelp initLoadingBaseView(Widget view) {
+  static LoadingHelp initLoadingBaseView(Widget view) {
     _loadingView = view;
-    return this;
   }
 }
