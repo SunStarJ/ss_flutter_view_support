@@ -30,9 +30,13 @@ class _LoadingView extends State<LoadingView> {
 
   @override
   Widget build(BuildContext context) {
+    Widget showLoadingView =
+        loadingView != null ? loadingView : LoadingHelp.loadingView;
     return Container(
       child: Center(
-        child: _isLoading ? loadingView : child,
+        child: _isLoading
+            ? (showLoadingView == null ? Container() : showLoadingView)
+            : child,
       ),
     );
   }
