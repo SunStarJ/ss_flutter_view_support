@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 
 class RevealAnimationView extends StatefulWidget {
   _RevealAnimationView bodyView;
-  int positionType = RevealPositionConfig.BOTTOM_CENTER;
+  int positionType;
   Widget child;
 
   RevealAnimationView({@required this.child, this.positionType});
