@@ -40,7 +40,7 @@ class _LoadingView extends State<LoadingView> {
       child: Center(
         child: _isLoading
             ? (showLoadingView == null ? Container() : showLoadingView)
-            : RevealAnimationView(child: child),
+            : RevealAnimationView(child: child,positionType: RevealPositionConfig.TOP_CENTER,),
       ),
     );
   }
