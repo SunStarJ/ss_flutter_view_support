@@ -66,7 +66,7 @@ class CircleRevealClipper extends CustomClipper<Rect> {
       final diameter = 2 * radius;
       print("centerx${epicenter.dx}");
       print("centery${epicenter.dy}");
-      return Rect.fromLTRB(
+      return Rect.fromLTWH(
           epicenter.dx - radius, epicenter.dy - radius, diameter, diameter);
     }
     return null;
