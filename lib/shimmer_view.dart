@@ -6,7 +6,7 @@ class Shimmer extends StatefulWidget {
   final Duration period;
   final Gradient gradient;
 
-  Shimmer(Key key, this.child, this.period, this.gradient) : super(key: key);
+  Shimmer(this.child, this.period, this.gradient,{Key key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => _ShimmerState();
