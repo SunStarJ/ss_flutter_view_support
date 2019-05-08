@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 
 class RevealAnimationView extends StatefulWidget {
   _RevealAnimationView bodyView;
-  int positionType;
+  RevealPositionConfig positionType;
   Widget child;
   Duration duration;
 
@@ -20,7 +20,7 @@ class RevealAnimationView extends StatefulWidget {
 
 class _RevealAnimationView extends State<RevealAnimationView>
     with SingleTickerProviderStateMixin {
-  int positionType;
+  RevealPositionConfig positionType;
   Duration duration;
   Widget child;
   AnimationController _control;
@@ -57,36 +57,48 @@ class _RevealAnimationView extends State<RevealAnimationView>
 
 class CircleRevealClipper extends CustomClipper<Rect> {
   final double revealPercent;
-  int _positionType;
+  RevealPositionConfig _positionType;
 
   CircleRevealClipper(this.revealPercent, this._positionType);
 
   @override
   Rect getClip(Size size) {
-    if (_positionType == null)
-      _positionType = RevealPositionConfig.BOTTOM_CENTER;
-    if (_positionType == RevealPositionConfig.BOTTOM_CENTER) {
-      final epicenter = Offset(size.width / 2, size.height * 0.9);
-      double theta = atan(epicenter.dy / epicenter.dx);
-      final distanceToCenter = epicenter.dy / sin(theta);
-      final radius = distanceToCenter * revealPercent;
-      final diameter = 2 * radius;
-      print("centerx${epicenter.dx}");
-      print("centery${epicenter.dy}");
-      return Rect.fromLTWH(
-          epicenter.dx - radius, epicenter.dy - radius, diameter, diameter);
-    }else if(_positionType == RevealPositionConfig.TOP_CENTER){
-      final epicenter = Offset(size.width / 2, size.height * 0.1);
-      double theta = atan((size.height - epicenter.dy)/ epicenter.dx);
-      final distanceToCenter = (size.height - epicenter.dy) / sin(theta);
-      final radius = distanceToCenter * revealPercent;
-      final diameter = 2 * radius;
-      print("centerx${epicenter.dx}");
-      print("centery${epicenter.dy}");
-      return Rect.fromLTWH(
-          epicenter.dx - radius, epicenter.dy - radius, diameter, diameter);
+    Offset epicenter;
+    double theta;
+    double distanceToCenter;
+    if (_positionType == null) _positionType = RevealPositionConfig.TOP_CENTER;
+    if (_positionType != null) {
+      switch (_positionType) {
+        case RevealPositionConfig.TOP_LEFT:
+          break;
+        case RevealPositionConfig.TOP_RIGHT:
+          break;
+        case RevealPositionConfig.TOP_CENTER:
+          epicenter = Offset(size.width / 2, size.height * 0.1);
+          theta = atan((size.height - epicenter.dy) / epicenter.dx);
+          distanceToCenter = (size.height - epicenter.dy) / sin(theta);
+          break;
+        case RevealPositionConfig.CENTER:
+          epicenter = Offset(size.width / 2, size.height / 2);
+          theta = atan(epicenter.dy / epicenter.dx);
+          distanceToCenter = epicenter.dy / sin(theta);
+          break;
+        case RevealPositionConfig.BOTTOM_LEFT:
+          break;
+        case RevealPositionConfig.BOTTOM_RIGHT:
+          break;
+        case RevealPositionConfig.BOTTOM_CENTER:
+          epicenter = Offset(size.width / 2, size.height * 0.9);
+          theta = atan(epicenter.dy / epicenter.dx);
+          distanceToCenter = epicenter.dy / sin(theta);
+          break;
+      }
     }
-    return null;
+
+    final radius = distanceToCenter * revealPercent;
+    final diameter = 2 * radius;
+    return Rect.fromLTWH(
+        epicenter.dx - radius, epicenter.dy - radius, diameter, diameter);
   }
 
   @override
@@ -96,12 +108,12 @@ class CircleRevealClipper extends CustomClipper<Rect> {
   }
 }
 
-class RevealPositionConfig {
-  static final int TOP_LEFT = 0;
-  static final int TOP_RIGHT = 1;
-  static final int TOP_CENTER = 2;
-  static final int CENTER = 3;
-  static final int BOTTOM_LEFT = 4;
-  static final int BOTTOM_RIGHT = 5;
-  static final int BOTTOM_CENTER = 6;
+enum RevealPositionConfig {
+  TOP_LEFT,
+  TOP_RIGHT,
+  TOP_CENTER,
+  CENTER,
+  BOTTOM_LEFT,
+  BOTTOM_RIGHT,
+  BOTTOM_CENTER,
 }
