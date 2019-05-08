@@ -51,13 +51,14 @@ class _RevealAnimationView extends State<RevealAnimationView>  with SingleTicker
 
 class CircleRevealClipper extends CustomClipper<Rect> {
   final double revealPercent;
-  final int positionType;
+  int _positionType;
 
-  CircleRevealClipper(this.revealPercent, this.positionType);
+  CircleRevealClipper(this.revealPercent, this._positionType);
 
   @override
   Rect getClip(Size size) {
-    if (positionType == RevealPositionConfig.BOTTOM_CENTER) {
+    if(_positionType == null) _positionType = RevealPositionConfig.BOTTOM_CENTER;
+    if (_positionType == RevealPositionConfig.BOTTOM_CENTER) {
       final epicenter = Offset(size.width / 2, size.height * 0.9);
       double theta = atan(epicenter.dy / epicenter.dx);
       final distanceToCenter = epicenter.dy / sin(theta);
