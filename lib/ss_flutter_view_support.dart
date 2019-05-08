@@ -1,7 +1,7 @@
 library ss_flutter_view_support;
 
 import 'package:flutter/material.dart';
-import 'reveal_container.dart';
+import 'reveal_view.dart';
 
 
 class LoadingView extends StatefulWidget {

@@ -10,6 +10,10 @@ class RevealAnimationView extends StatefulWidget {
 
   RevealAnimationView({@required this.child, this.positionType, this.duration});
 
+  void revers(){
+    bodyView.reversAnim();
+  }
+
   @override
   State<StatefulWidget> createState() {
     if (bodyView == null)
@@ -29,9 +33,12 @@ class _RevealAnimationView extends State<RevealAnimationView>
 
   Animation _animation;
 
+  void reversAnim(){
+    _control.animateBack(0);
+  }
+
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     print(positionType);
     _control = AnimationController(
@@ -70,11 +77,14 @@ class CircleRevealClipper extends CustomClipper<Rect> {
     if (_positionType != null) {
       switch (_positionType) {
         case RevealPositionConfig.TOP_LEFT:
-          epicenter = Offset(size.width / 2, size.height * 0.1);
+          epicenter = Offset(size.width*0.1, size.height * 0.1);
           theta = atan((size.height - epicenter.dy) / (size.width - epicenter.dx));
           distanceToCenter = (size.height - epicenter.dy) / sin(theta);
           break;
         case RevealPositionConfig.TOP_RIGHT:
+          epicenter = Offset(size.width*0.9, size.height * 0.1);
+          theta = atan((size.height - epicenter.dy) / (epicenter.dx));
+          distanceToCenter = (epicenter.dy) / sin(theta);
           break;
         case RevealPositionConfig.TOP_CENTER:
           epicenter = Offset(size.width / 2, size.height * 0.1);
