@@ -84,6 +84,9 @@ class CircleRevealClipper extends CustomClipper<Rect> {
           distanceToCenter = epicenter.dy / sin(theta);
           break;
         case RevealPositionConfig.BOTTOM_LEFT:
+          epicenter = Offset(size.width * 0.1, size.height * 0.9);
+          theta = atan((size.width - epicenter.dy) / epicenter.dx);
+          distanceToCenter = epicenter.dy / sin(theta);
           break;
         case RevealPositionConfig.BOTTOM_RIGHT:
           epicenter = Offset(size.width, size.height * 0.9);
