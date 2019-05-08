@@ -18,6 +18,7 @@ class RevealAnimationView extends StatefulWidget {
 
 class _RevealAnimationView extends State<RevealAnimationView>  with SingleTickerProviderStateMixin{
   int positionType;
+
   Widget child;
   AnimationController _control;
   _RevealAnimationView(this.child, this.positionType);
@@ -26,8 +27,9 @@ class _RevealAnimationView extends State<RevealAnimationView>  with SingleTicker
   void initState() {
     // TODO: implement initState
     super.initState();
+    print(positionType);
     _control = AnimationController(duration:Duration(milliseconds: 500),vsync: this);
-    _animation = Tween(begin: 0,end: 1).animate(_control)..addListener((){
+    _animation = Tween(begin: 0.0,end: 1.0).animate(_control)..addListener((){
       setState(() {
 
       });
