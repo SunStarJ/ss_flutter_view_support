@@ -28,7 +28,7 @@ class _RevealAnimationView extends State<RevealAnimationView>  with SingleTicker
     // TODO: implement initState
     super.initState();
     print(positionType);
-    _control = AnimationController(duration:Duration(milliseconds: 500),vsync: this);
+    _control = AnimationController(duration:Duration(milliseconds: 3000),vsync: this);
     _animation = Tween(begin: 0.0,end: 1.0).animate(_control)..addListener((){
       setState(() {
 
