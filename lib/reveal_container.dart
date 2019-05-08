@@ -78,7 +78,7 @@ class CircleRevealClipper extends CustomClipper<Rect> {
     }else if(_positionType == RevealPositionConfig.TOP_CENTER){
       final epicenter = Offset(size.width / 2, size.height * 0.1);
       double theta = atan(size.height - epicenter.dy / epicenter.dx);
-      final distanceToCenter = epicenter.dy / sin(theta);
+      final distanceToCenter = (size.height - epicenter.dy) / sin(theta);
       final radius = distanceToCenter * revealPercent;
       final diameter = 2 * radius;
       print("centerx${epicenter.dx}");
