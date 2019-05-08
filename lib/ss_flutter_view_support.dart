@@ -1,22 +1,26 @@
 library ss_flutter_view_support;
 
 import 'package:flutter/material.dart';
+import 'reveal_container.dart';
+
 
 class LoadingView extends StatefulWidget {
   Widget child;
   Widget loadingView;
-  _LoadingView innerView;
+  _LoadingView _innerView;
 
   LoadingView({@required this.child, this.loadingView});
 
-  void loadingComplete() {}
+  void loadingComplete() {
+    _innerView.loadingComplete();
+  }
 
   @override
   State<StatefulWidget> createState() {
-    if (innerView == null) {
-      innerView = _LoadingView(child, loadingView);
+    if (_innerView == null) {
+      _innerView = _LoadingView(child, loadingView);
     }
-    return innerView;
+    return _innerView;
   }
 }
 
@@ -36,7 +40,7 @@ class _LoadingView extends State<LoadingView> {
       child: Center(
         child: _isLoading
             ? (showLoadingView == null ? Container() : showLoadingView)
-            : child,
+            : RevealAnimationView(child: child),
       ),
     );
   }
