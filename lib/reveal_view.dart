@@ -64,7 +64,7 @@ class _RevealAnimationView extends State<RevealAnimationView>
     return Container(
       child: ClipOval(
         child: child == null ? Container() : child,
-        clipper: CircleRevealClipper(_animation.value, positionType),
+        clipper: CircleRevealClipper(_animation.value, positionType,centerPosition),
       ),
     );
   }
@@ -76,7 +76,7 @@ class CircleRevealClipper extends CustomClipper<Rect> {
   Offset centerPosition;
 
   CircleRevealClipper(this.revealPercent, this._positionType,
-      {this.centerPosition});
+      this.centerPosition);
 
   @override
   Rect getClip(Size size) {
