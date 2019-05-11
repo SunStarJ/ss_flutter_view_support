@@ -83,10 +83,9 @@ class CircleRevealClipper extends CustomClipper<Rect> {
     Offset epicenter;
     double theta;
     double distanceToCenter;
-    if (centerPosition != null) {
+    if (centerPosition == null) {
       if (_positionType == null)
         _positionType = RevealPositionConfig.TOP_CENTER;
-      if (centerPosition == null) {
         switch (_positionType) {
           case RevealPositionConfig.TOP_LEFT:
             epicenter = Offset(size.width * 0.1, size.height * 0.1);
@@ -125,7 +124,6 @@ class CircleRevealClipper extends CustomClipper<Rect> {
             distanceToCenter = epicenter.dy / sin(theta);
             break;
         }
-      }
     } else {
       epicenter = centerPosition;
       theta = atan(max(epicenter.dy, size.height - epicenter.dy) /
