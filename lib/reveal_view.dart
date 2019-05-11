@@ -7,17 +7,23 @@ class RevealAnimationView extends StatefulWidget {
   RevealPositionConfig positionType;
   Widget child;
   Duration duration;
+  Offset centerPosition;
 
-  RevealAnimationView({@required this.child, this.positionType, this.duration});
+  RevealAnimationView(
+      {@required this.child,
+      this.positionType,
+      this.duration,
+      this.centerPosition});
 
-  void revers(){
+  void revers() {
     bodyView.reversAnim();
   }
 
   @override
   State<StatefulWidget> createState() {
     if (bodyView == null)
-      bodyView = _RevealAnimationView(child, positionType, duration);
+      bodyView =
+          _RevealAnimationView(child, positionType, duration, centerPosition);
     return bodyView;
   }
 }
@@ -28,12 +34,14 @@ class _RevealAnimationView extends State<RevealAnimationView>
   Duration duration;
   Widget child;
   AnimationController _control;
+  Offset centerPosition;
 
-  _RevealAnimationView(this.child, this.positionType, this.duration);
+  _RevealAnimationView(
+      this.child, this.positionType, this.duration, this.centerPosition);
 
   Animation _animation;
 
-  void reversAnim(){
+  void reversAnim() {
     _control.animateBack(0);
   }
 
@@ -65,53 +73,65 @@ class _RevealAnimationView extends State<RevealAnimationView>
 class CircleRevealClipper extends CustomClipper<Rect> {
   final double revealPercent;
   RevealPositionConfig _positionType;
+  Offset centerPosition;
 
-  CircleRevealClipper(this.revealPercent, this._positionType);
+  CircleRevealClipper(this.revealPercent, this._positionType,
+      {this.centerPosition});
 
   @override
   Rect getClip(Size size) {
     Offset epicenter;
     double theta;
     double distanceToCenter;
-    if (_positionType == null) _positionType = RevealPositionConfig.TOP_CENTER;
-    if (_positionType != null) {
-      switch (_positionType) {
-        case RevealPositionConfig.TOP_LEFT:
-          epicenter = Offset(size.width*0.1, size.height * 0.1);
-          theta = atan((size.height - epicenter.dy) / (size.width - epicenter.dx));
-          distanceToCenter = (size.height - epicenter.dy) / sin(theta);
-          break;
-        case RevealPositionConfig.TOP_RIGHT:
-          epicenter = Offset(size.width*0.9, size.height * 0.1);
-          theta = atan((size.height - epicenter.dy) / (epicenter.dx));
-          distanceToCenter = (epicenter.dy) / sin(theta);
-          break;
-        case RevealPositionConfig.TOP_CENTER:
-          epicenter = Offset(size.width / 2, size.height * 0.1);
-          theta = atan((size.height - epicenter.dy) / epicenter.dx);
-          distanceToCenter = (size.height - epicenter.dy) / sin(theta);
-          break;
-        case RevealPositionConfig.CENTER:
-          epicenter = Offset(size.width / 2, size.height / 2);
-          theta = atan(epicenter.dy / epicenter.dx);
-          distanceToCenter = epicenter.dy / sin(theta);
-          break;
-        case RevealPositionConfig.BOTTOM_LEFT:
-          epicenter = Offset(size.width * 0.1, size.height * 0.9);
-          theta = atan(epicenter.dy / (size.width - epicenter.dx));
-          distanceToCenter = epicenter.dy / sin(theta);
-          break;
-        case RevealPositionConfig.BOTTOM_RIGHT:
-          epicenter = Offset(size.width, size.height * 0.9);
-          theta = atan(epicenter.dy / epicenter.dx);
-          distanceToCenter = epicenter.dy / sin(theta);
-          break;
-        case RevealPositionConfig.BOTTOM_CENTER:
-          epicenter = Offset(size.width / 2, size.height * 0.9);
-          theta = atan(epicenter.dy / epicenter.dx);
-          distanceToCenter = epicenter.dy / sin(theta);
-          break;
+    if (centerPosition != null) {
+      if (_positionType == null)
+        _positionType = RevealPositionConfig.TOP_CENTER;
+      if (_positionType != null) {
+        switch (_positionType) {
+          case RevealPositionConfig.TOP_LEFT:
+            epicenter = Offset(size.width * 0.1, size.height * 0.1);
+            theta = atan(
+                (size.height - epicenter.dy) / (size.width - epicenter.dx));
+            distanceToCenter = (size.height - epicenter.dy) / sin(theta);
+            break;
+          case RevealPositionConfig.TOP_RIGHT:
+            epicenter = Offset(size.width * 0.9, size.height * 0.1);
+            theta = atan((size.height - epicenter.dy) / (epicenter.dx));
+            distanceToCenter = (epicenter.dy) / sin(theta);
+            break;
+          case RevealPositionConfig.TOP_CENTER:
+            epicenter = Offset(size.width / 2, size.height * 0.1);
+            theta = atan((size.height - epicenter.dy) / epicenter.dx);
+            distanceToCenter = (size.height - epicenter.dy) / sin(theta);
+            break;
+          case RevealPositionConfig.CENTER:
+            epicenter = Offset(size.width / 2, size.height / 2);
+            theta = atan(epicenter.dy / epicenter.dx);
+            distanceToCenter = epicenter.dy / sin(theta);
+            break;
+          case RevealPositionConfig.BOTTOM_LEFT:
+            epicenter = Offset(size.width * 0.1, size.height * 0.9);
+            theta = atan(epicenter.dy / (size.width - epicenter.dx));
+            distanceToCenter = epicenter.dy / sin(theta);
+            break;
+          case RevealPositionConfig.BOTTOM_RIGHT:
+            epicenter = Offset(size.width, size.height * 0.9);
+            theta = atan(epicenter.dy / epicenter.dx);
+            distanceToCenter = epicenter.dy / sin(theta);
+            break;
+          case RevealPositionConfig.BOTTOM_CENTER:
+            epicenter = Offset(size.width / 2, size.height * 0.9);
+            theta = atan(epicenter.dy / epicenter.dx);
+            distanceToCenter = epicenter.dy / sin(theta);
+            break;
+        }
       }
+    } else {
+      epicenter = centerPosition;
+      theta = atan(max(epicenter.dy, size.height - epicenter.dy) /
+          max(epicenter.dx, size.width - epicenter.dx));
+      distanceToCenter =
+          max(epicenter.dy, size.height - epicenter.dy) / sin(theta);
     }
 
     final radius = distanceToCenter * revealPercent;
