@@ -19,6 +19,8 @@ class RevealAnimationView extends StatefulWidget {
     bodyView.reversAnim();
   }
 
+
+
   @override
   State<StatefulWidget> createState() {
     if (bodyView == null)
@@ -67,6 +69,13 @@ class _RevealAnimationView extends State<RevealAnimationView>
         clipper: CircleRevealClipper(_animation.value, positionType,centerPosition),
       ),
     );
+  }
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    _control.dispose();
+    super.dispose();
+
   }
 }
 
@@ -143,6 +152,7 @@ class CircleRevealClipper extends CustomClipper<Rect> {
     // TODO: implement shouldReclip
     return true;
   }
+
 }
 
 enum RevealPositionConfig {
