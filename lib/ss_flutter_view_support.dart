@@ -3,7 +3,6 @@ library ss_flutter_view_support;
 import 'package:flutter/material.dart';
 import 'reveal_view.dart';
 
-
 class LoadingView extends StatefulWidget {
   Widget child;
   Widget loadingView;
@@ -37,11 +36,14 @@ class _LoadingView extends State<LoadingView> {
     Widget showLoadingView =
         loadingView != null ? loadingView : LoadingHelp.loadingView;
     return Container(
-      child: Center(
-        child: _isLoading
-            ? (showLoadingView == null ? Container() : showLoadingView)
-            : RevealAnimationView(child: child,positionType: RevealPositionConfig.TOP_LEFT,),
-      ),
+      child: _isLoading
+          ? Center(
+              child: (showLoadingView == null ? Container() : showLoadingView),
+            )
+          : RevealAnimationView(
+              child: child,
+              positionType: RevealPositionConfig.TOP_LEFT,
+            ),
     );
   }
 
