@@ -11,7 +11,7 @@ class LoadingView extends StatefulWidget {
   LoadingView({@required this.child, this.loadingView});
 
   void loadingComplete() {
-    _innerView.loadingComplete();
+    _innerView?.loadingComplete();
   }
 
   @override
